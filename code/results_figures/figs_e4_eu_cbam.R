@@ -1,0 +1,261 @@
+## experiment : global warming 
+## figures for The Winners and Losers of Climate Policies 
+# jordan rosenthal-kay
+
+# libraries 
+library(haven)
+library(ggplot2)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(dplyr)
+library(patchwork)
+library(cowplot)
+library(tidyverse)
+
+# read in data 
+data <- read_csv(file.path(path,'welfare_carbontax_carbontariff_EU_l_50.csv'))
+
+data <- data %>%
+  mutate(across(-iso3, ~ .x * 100))
+
+data <- data %>%
+  mutate(dW_winsorized = case_when(
+    dW <= quantile(dW, 0.02, na.rm = TRUE) ~ quantile(dW, 0.02, na.rm = TRUE),
+    dW >= quantile(dW, 0.98, na.rm = TRUE) ~ quantile(dW, 0.98, na.rm = TRUE),
+    TRUE ~ dW
+  ))
+
+#data$dW_winsorized[data$dW_winsorized < -0.75] <- -0.75
+#data$dW_winsorized[data$dW_winsorized > 0.75] <- 0.75
+
+# Get world map data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Join the data with the map
+world_data <- world %>%
+  left_join(data, by = c("iso_a3_eh" = "iso3"))
+#world_data$dW_winsorized[world_data$iso_a3_eh=="VIR"] <- 0.75
+
+# Plot the map with Robinson projection
+p1 <- ggplot() +
+  geom_sf(data = sf::st_graticule(ndiscr = 10000, margin = 0.05), 
+          color = "grey70", size = 0.05, alpha = 0.5) +
+  geom_sf(data = world_data, aes(fill = dW_winsorized), color = "grey90", size = 0.1) +
+  scale_fill_gradient2(
+    low = "firebrick3", 
+    high = "dodgerblue3",
+    midpoint=0,
+    name = expression(Delta * "Welfare"),
+    na.value = "grey85"
+  ) +
+  coord_sf(crs = st_crs("+proj=robin"), # Robinson projection
+           datum = NA) +
+  theme_minimal() +
+  labs(
+    title = "Percent changes in welfare",
+    subtitle = "from an EU-wide CBAM and carbon tax of $50"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(face = "bold", size = 11),
+    legend.box = "vertical",
+    legend.margin = margin(t = 10),
+    legend.box.margin = margin(0, 0, 0, 0)
+  )
+p1
+
+savename <- 'welfare_EU_CBAM_map.png'
+ggsave(file.path(savepath,savename), plot = p1, width = 8, height = 6, dpi = 300)
+
+# Filter for the specified countries
+selected_countries <- c("USA", "CHN", "DEU","GBR", "JPN", "RUS", "IND", "IDN" ,"SAU","BRA","NGA","CAN","WLD")
+filtered_data <- data %>%
+  filter(iso3 %in% selected_countries)
+
+# Reshape data to long format for stacking
+long_data <- filtered_data %>%
+  pivot_longer(
+    cols = c(dW_D, dW_p, dW_e, dW_π),
+    names_to = "component",
+    values_to = "value"
+  )
+
+# Set the order of the components for stacking
+long_data$component <- factor(
+  long_data$component,
+  levels = c("dW_D", "dW_p", "dW_π", "dW_e")  # Order by typical magnitude
+)
+
+# Create a nice label lookup for the components
+component_labels <- c(
+  "dW_D" = "Direct productivity",
+  "dW_p" = "Trade",
+  "dW_e" = "Energy cost",
+  "dW_π" = "Energy rent"
+)
+
+# Plot a stacked bar chart
+p2 <- ggplot(long_data, aes(x = iso3, y = value, fill = component)) +
+  geom_col(position = "stack") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  scale_fill_manual(
+    values = c("dW_D" = "#0072B2", "dW_p" = "#009E73", "dW_e" = "#CC79A7", "dW_π" = "#E69F00"),
+    labels = component_labels,
+    name = ""
+  ) +
+  labs(
+    title = "Decomposition of welfare changes",
+    subtitle = "from an EU-wide CBAM and carbon tax of $50",
+    x = "Country",
+    y = expression(Delta * "Welfare Components")
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(face = "bold", size = 11),
+    legend.box = "vertical",
+    legend.margin = margin(t = 10),
+    legend.box.margin = margin(0, 0, 0, 0)
+  ) +
+  guides(fill = guide_legend(nrow = 1))
+
+savename <- 'welfare_EU_CBAM_bar1.png'
+ggsave(file.path(savepath,savename), plot = p2, width = 8, height = 6, dpi = 300)
+
+##
+## EU countries
+##
+
+# Filter for the specified countries
+selected_countries1 <- c("DEU", "FRA", "ITA", "ESP", "NLD", "POL", "SWE", "AUT", "DNK", "IRL", "FIN", "PRT")
+selected_countries2 <- c("USA", "CHN", "GBR", "RUS", "TUR", "IND", "BRA", "WLD", "NGA", "IDN", "SAU", "VNM")
+
+filtered_data <- data %>%
+  filter(iso3 %in% selected_countries1)
+
+# Reshape data to long format for stacking
+long_data <- filtered_data %>%
+  pivot_longer(
+    cols = c(dW_D, dW_p, dW_e, dW_π),
+    names_to = "component",
+    values_to = "value"
+  )
+
+# Set the order of the components for stacking
+long_data$component <- factor(
+  long_data$component,
+  levels = c("dW_D", "dW_p", "dW_π", "dW_e")  # Order by typical magnitude
+)
+
+# Create a nice label lookup for the components
+component_labels <- c(
+  "dW_D" = "Direct productivity",
+  "dW_p" = "Trade",
+  "dW_e" = "Energy cost",
+  "dW_π" = "Energy rent"
+)
+
+# Plot a stacked bar chart
+p2x <- ggplot(long_data, aes(x = iso3, y = value, fill = component)) +
+  geom_col(position = "stack") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  scale_fill_manual(
+    values = c("dW_D" = "#0072B2", "dW_p" = "#009E73", "dW_e" = "#CC79A7", "dW_π" = "#E69F00"),
+    labels = component_labels,
+    name = ""
+  ) +
+  labs(
+    title = "Decomposition of welfare changes",
+    subtitle = "from an EU-wide CBAM and carbon tax of $50",
+    x = "EU countries",
+    y = expression(Delta * "Welfare Components")
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(face = "bold", size = 11),
+    legend.box = "vertical",
+    legend.margin = margin(t = 10),
+    legend.box.margin = margin(0, 0, 0, 0)
+  ) +
+  guides(fill = guide_legend(nrow = 1))
+
+## select 2 
+filtered_data <- data %>%
+  filter(iso3 %in% selected_countries2)
+
+# Reshape data to long format for stacking
+long_data <- filtered_data %>%
+  pivot_longer(
+    cols = c(dW_D, dW_p, dW_e, dW_π),
+    names_to = "component",
+    values_to = "value"
+  )
+
+# Set the order of the components for stacking
+long_data$component <- factor(
+  long_data$component,
+  levels = c("dW_D", "dW_p", "dW_π", "dW_e")  # Order by typical magnitude
+)
+
+# Create a nice label lookup for the components
+component_labels <- c(
+  "dW_D" = "Direct productivity",
+  "dW_p" = "Trade",
+  "dW_e" = "Energy cost",
+  "dW_π" = "Energy rent"
+)
+
+# Plot a stacked bar chart
+p3x <- ggplot(long_data, aes(x = iso3, y = value, fill = component)) +
+  geom_col(position = "stack") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  scale_fill_manual(
+    values = c("dW_D" = "#0072B2", "dW_p" = "#009E73", "dW_e" = "#CC79A7", "dW_π" = "#E69F00"),
+    labels = component_labels,
+    name = ""
+  ) +
+  labs(
+    title = "",
+    subtitle = "",
+    x = "Affected countries",
+    y = expression(Delta * "Welfare Components")
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    plot.title = element_blank(),
+    plot.subtitle = element_blank(),
+    plot.caption = element_blank(),
+    axis.text.x = element_text(face = "bold", size = 11),
+    legend.box = "vertical",
+    legend.margin = margin(t = 10),
+    legend.box.margin = margin(0, 0, 0, 0)
+  ) +
+  guides(fill = guide_legend(nrow = 1))
+
+## stack 
+# Create plots without legends
+p2_no_legend <- p2x + theme(legend.position = "none")
+p3_no_legend <- p3x + theme(legend.position = "none")
+
+# Stack the plots without legends
+pstack_no_legend <- p2_no_legend / p3_no_legend
+
+# Add the shared legend at the bottom of the stacked plots
+pstack_with_legend <- pstack_no_legend + theme(legend.position = "bottom")
+
+# Display the figure
+pstack_with_legend
+
+savename <- 'welfare_EU_CBAM_bar2.png'
+ggsave(file.path(savepath,savename), plot = pstack_with_legend, width = 8, height = 6, dpi = 300)
