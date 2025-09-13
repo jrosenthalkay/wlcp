@@ -9,32 +9,39 @@ Below is a description of each file in the folder:
 
 **`raw`**
 
-- *WDI_energy_data_extract.csv* -- This is a simple extract of the following variables from the [World Development Indicators](https://databank.worldbank.org/source/world-development-indicators). We include the following variables, for all countries, in years 2000-2016:
+- *berktemp_1750-2019.csv* -- 1 degree x 1 degree average annual temperature (TAVG) from [Berkeley Earth](https://berkeleyearth.org/data/). This data was transformed from a netCDF (.nc) file to a (.csv) outside of this project's workflow. 
   
-  - `Energy use (kg of oil equivalent per capita)`, `GDP per unit of energy use (PPP $ per kg of oil equivalent)`, `GDP per unit of energy use (constant 2021 PPP $ per kg of oil equivalent)`, `Renewable energy consumption (% of total final energy consumption)`, `Oil rents (% of GDP)`, `Natural gas rents (% of GDP)`, `Coal rents (% of GDP)`
+  - It is omitted from the replication folder on GitHub. Please email the authors for a copy of this file if necessary; it is 110MB. It is only used as an input to construct historical country temperatures (which are provided in `data/int`) in the file `00_clean_berkeley_temp.R`. 
   
-- *ITPD_E_R01.csv* -- This is release 1 of the ITPD estimation data from the [US Gravity portal](https://www.usitc.gov/data/gravity/itpde.htm). It is 4GB so we do not include it in the replication package.
-- *GHS_POP_E2015_GLOBE_R2023A_4326_30ss_V1_0.tif* -- This is the GHS Population Raster, available from the [Global Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/download.php) for 2015, global, at 30 arcsec resolution. Also not included due to its size (~380MB)
-- *berktemp_1750-2019.csv* -- 1 degree x 1 degree average annual temperature (TAVG) from [Berkeley Earth](https://berkeleyearth.org/data/). This data was transformed from a netCDF (.nc) file to a (.csv) outside of this project's workflow.
-- *WDI_main.csv* -- standard WDI data (GDP, mortality, etc)
-- *release_2.1_1990_1999.csv* -- Standard bilateral gravity variables, accessible the [USITC gravity portal](https://www.usitc.gov/data/gravity/dgd.htm). Around 283MB, so not including in the replication package.
-- *crude-oil-prices.csv* -- Oil prices from Our World In Data (OWID): ["Crude oil prices"](https://ourworldindata.org/grapher/crude-oil-prices?v=1&csvType=full&useColumnShortNames=false), downloaded 8 march 2025. OWID encourages the citation for their data sources:
-
-  > Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World in Data. “Oil price - Crude prices since 1861” [dataset]. Energy Institute, “Statistical Review of World Energy” [original data].
-  > Source: Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World In Data
-
 - *coal-prices.csv* -- international coal prices from OWID: ["Coal prices"](https://ourworldindata.org/grapher/coal-prices?v=1&csvType=full&useColumnShortNames=false) downloaded 9 march 2025. OWID cites,
-
+  
   >Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World in Data. “Coal” [dataset]. Energy Institute, “Statistical Review of World Energy” [original data].
   >Source: Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World In Data
-
+  
+- *crude-oil-prices.csv* -- Oil prices from Our World In Data (OWID): ["Crude oil prices"](https://ourworldindata.org/grapher/crude-oil-prices?v=1&csvType=full&useColumnShortNames=false), downloaded 8 march 2025. OWID encourages the citation for their data sources:
+  
+  > Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World in Data. “Oil price - Crude prices since 1861” [dataset]. Energy Institute, “Statistical Review of World Energy” [original data].
+  > Source: Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World In Data
+  
+- *GHS_POP_E2015_GLOBE_R2023A_4326_30ss_V1_0.tif* -- This is the GHS Population Raster, available from the [Global Human Settlement Layer](https://human-settlement.emergency.copernicus.eu/download.php) for 2015, global, at 30 arcsec resolution. 
+  
+  - Also not included due to its size (~380MB). Please download if you would like to replicate the country level temperature construction in `00_clean_berkeley_temp.R`. 
+  
+- *ITPD_E_R01.csv* -- This is release 1 of the ITPD estimation data from the [US Gravity portal](https://www.usitc.gov/data/gravity/itpde.htm). 
+  
+  - It is 4GB so we do not include it in the replication package.
+  
 - *natural-gas-prices.csv* -- again from OWID: ["Natural gas prices"](https://ourworldindata.org/grapher/natural-gas-prices?v=1&csvType=full&useColumnShortNames=false) downloaded 8 march 2025. OWID cites,
-
+  
   > Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World in Data. “Gas price” [dataset]. Energy Institute, “Statistical Review of World Energy” [original data].
   > Source: Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World In Data
+  
+- *owid-energy-data.csv* -- data on nations' energy mix from OWID.
 
 - *WDI_carbon.csv* -- carbon emissions data from the WDI; in particular the variable `Carbon dioxide (CO2) emissions (total) excluding LULUCF (Mt CO2e)` .
-- *owid-energy-data.csv* -- data on nations' energy mix from OWID.
+
+- *WDI_energy_data_extract.csv* -- This is a simple extract of the following variables from the [World Development Indicators](https://databank.worldbank.org/source/world-development-indicators).
+- *WDI_main.csv* -- standard WDI data (GDP, mortality, etc)
 
 
 

@@ -3,12 +3,12 @@
 
 ### How to run the code
 
-0. `aa_clean_berkeley_temp.R` requires you to set the root. 
+0. `00_clean_berkeley_temp.R` requires you to set the root. 
    - This file creates country temperature data by averaging pre-processed BEST gridded temp data using GHS population weights. This output is an input to the stata processing and estimation steps. Its output (`data/int/country_avg_temp_timeseries_ghs_popweight.csv`) is provided as part of the replication package, as this step is computationally costly: it requires handling a large populaiton raster and pre-processed data. See the README in the `data/raw` for information on these inputs.
 
-1. `00_stata_master.do` runs all other data processing and estimation using relative paths. It requires you to set the root folder. Edit the `global main` line near the top to point to the root folder where this repository lives. All paths are defined relative to `main`.
-2. `compute_suff_stats.jl` uses the output from the data processing and estimation steps to compute our welfare formulas. It also requires that you manually set the root folder name.
-3. Finally `results_figures_tables_wrapper.R` creates all maps and bar graphs in the paper, using the sufficient statistics output. This file also requires you manually set the root.
+1. `01_stata_master.do` runs all other data processing and estimation using relative paths. It requires you to set the root folder. Edit the `global main` line near the top to point to the root folder where this repository lives. All paths are defined relative to `main`.
+2. `02_compute_suff_stats.jl` uses the output from the data processing and estimation steps to compute our welfare formulas. It also requires that you manually set the root folder name.
+3. Finally `03_results_figures_tables_wrapper.R` creates all maps and bar graphs in the paper, using the sufficient statistics output. This file also requires you manually set the root.
 
 **Data processing and cleaning files**
 
@@ -16,7 +16,7 @@ These handle initial data processing steps:
 
 | File                            | Task                                                         | Input                                                        | Output                                                 |
 | ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------ |
-| aa_clean_berkeley_temp.R        | Aggregates Berkeley Earth temperature data to the country level, using GHS-POP to form weights | /data/raw/GHS_POP_E2015_GLOBE_R2023A_4326_30ss_V1_0.tif<br />data/raw/berktemp_1750-2019.csv | data/int/country_avg_temp_timeseries_ghs_popweight.csv |
+| clean_berkeley_temp.R           | Aggregates Berkeley Earth temperature data to the country level, using GHS-POP to form weights | /data/raw/GHS_POP_E2015_GLOBE_R2023A_4326_30ss_V1_0.tif<br />data/raw/berktemp_1750-2019.csv | data/int/country_avg_temp_timeseries_ghs_popweight.csv |
 | 01_clean_energy_data.do         | Cleans WDI data and formats to match trade data.             | data/raw/WDI_energy_data_extract.csv                         | data/int/wdi_nrg_o.dta <br />data/int/wdi_nrg_d.dta    |
 | 02_clean_wdi.do                 | This file extracts and cleans GDP and population data from the World Development Indicators. For calibration, we extrapolate population and GDP for missing observations by fitting a gdp growth or population growth time trend for each country. | data/raw/WDI_main.csv<br />data/int/country_avg_temp_timeseries_ghs_popweight.csv | data/int/global_gdp_panel.dta                          |
 | 03_clean_trade_data.do          | Aggregates the ITPD_E data to the country-pair-year level, omitting energy trade. Note: this takes a while to run. | data/raw/ITPD_E_R01.csv                                      | data/int/trade_collapse_noNRG.dta                      |

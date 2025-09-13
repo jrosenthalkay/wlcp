@@ -1,7 +1,7 @@
-
 ##
-## clean GHS and berkeley earth, forming pattern scaling
+## clean GHS and berkeley earth, get country level-temperatures
 ##
+## Jordan Rosenthal-Kay for WLCP replication
 library(readxl)
 library(dplyr)
 library(countrycode)
@@ -12,8 +12,9 @@ library(data.table)
 library(rnaturalearth)
 library(ggplot2)
 
-# paths
-mypath <- "/Users/jordanrosenthalkay/Dropbox/Research/WLCC_replication/"
+# >>>>>>>> SET YOUR ROOT FOLDER HERE <<<<<<<<
+mypath <- 'C:/Users/path/to/root/wlcp'
+# ^ Change this path to the root of the replication package on your machine
 
 ## read in data ## 
 
@@ -102,4 +103,5 @@ country_avg <- long_df[, .(
   weighted_lat = weighted.mean(latitude, w = population)
 ), by = .(country_name, iso3, year)]
 
+# save
 write.csv(country_avg,file.path(mypath,'data/int/country_avg_temp_timeseries_ghs_popweight.csv'),row.names=F)
