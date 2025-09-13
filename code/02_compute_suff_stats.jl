@@ -67,6 +67,10 @@ for pkg in Pkg_list
     require(pkg)
 end
 
+# create a blank .txt file that records statistics that do not appear in figures / tables.
+outfile = "output/"
+write(outfile*"SCC_ests.txt", "")
+
 # --------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------
 # --- load and clean data --------------------------------------------------------
@@ -899,6 +903,10 @@ SCC_sumLCC = sum((parss.yy).^(-parss.ηcrra) .* LCC_i)
 
 println("utilitarian SCC: $SCC_sumLCC")
 
+open(outfile * "SCC_ests.txt", "a") do f
+    write(f, "Utilitarian SCC: $SCC_sumLCC\n")
+end
+
 ### NEGISHI-weighted
 
 𝝎_n =  parss.yy.^(parss.ηcrra) ./ sum(parss.p̂p̂ .* parss.yy.^(parss.ηcrra) )
@@ -912,7 +920,11 @@ LCC_i = - 1e6 .* parss.pp .*  1e3 .* (parss.yy) .* dWdec1[:,1] .* 12 /100 ./ (pa
 
 SCC_sumLCC = sum(𝝎_n .* (parss.yy).^(-parss.ηcrra) .* LCC_i)
 
-println("utilitarian SCC: $SCC_sumLCC")
+println("Negishi weighted SCC: $SCC_sumLCC")
+
+open(outfile * "SCC_ests.txt", "a") do f
+    write(f, "Negishi weighted SCC: $SCC_sumLCC\n")
+end
 
 ## Account for non linearity in Climate System (footnote exercise) ##
 
@@ -949,6 +961,9 @@ LCC_i_nl = - 1e6 .* parss.pp .*  1e3 .* (parss.yy) .* dWdec1nl[:,1] .* 12 /100 .
 
 SCC_sumLCC_nl = sum((parss.yy).^(-parss.ηcrra) .* LCC_i_nl)
 
+open(outfile * "SCC_ests.txt", "a") do f
+    write(f, "SCC after 3 degrees of warming: $SCC_sumLCC_nl\n")
+end
 
 ####################################
 ########### Carbon tax US ##########
