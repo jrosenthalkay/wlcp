@@ -31,8 +31,8 @@ ran on the following environment:
 # --------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------
 
-# set main path / "repo root"
-cd("/Users/l1aps02/FRB SF Dropbox/Aleisha Sawyer/WLCC_replication") # hard code path
+# >>>>>>>> SET YOUR ROOT FOLDER HERE <<<<<<<<
+cd("C:/Users/path/to/wlcp") # <-- Change this to the repo root on your machine
 
 # packages
 using Pkg, Base.Threads # Pkg must be installed, so as to install other dependencies

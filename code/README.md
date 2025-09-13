@@ -1,7 +1,14 @@
 
 ### Readme file for "WLCP/code"
 
+### How to run the code
 
+0. `aa_clean_berkeley_temp.R` requires you to set the root. 
+   - This file creates country temperature data by averaging pre-processed BEST gridded temp data using GHS population weights. This output is an input to the stata processing and estimation steps. Its output (`data/int/country_avg_temp_timeseries_ghs_popweight.csv`) is provided as part of the replication package, as this step is computationally costly: it requires handling a large populaiton raster and pre-processed data. See the README in the `data/raw` for information on these inputs.
+
+1. `00_stata_master.do` runs all other data processing and estimation using relative paths. It requires you to set the root folder. Edit the `global main` line near the top to point to the root folder where this repository lives. All paths are defined relative to `main`.
+2. `compute_suff_stats.jl` uses the output from the data processing and estimation steps to compute our welfare formulas. It also requires that you manually set the root folder name.
+3. Finally `results_figures_tables_wrapper.R` creates all maps and bar graphs in the paper, using the sufficient statistics output. This file also requires you manually set the root.
 
 **Data processing and cleaning files**
 
@@ -20,7 +27,7 @@ These handle initial data processing steps:
 
 **Estimation/calibration input code**
 
-These files handle...
+These files handle estimation of the damage function and of the energy supply elasticities.
 
 | File                                  | Task                                                         | Input                                                        | Output                                                       |
 | ------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |

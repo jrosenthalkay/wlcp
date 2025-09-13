@@ -12,9 +12,11 @@ last updated: 26 august 2025
 */
 
 * set up relative paths
-global main "C:\Users\l1aps02\FRB SF Dropbox\Aleisha Sawyer\WLCC_replication"
-//global main "/Users/jordanrosenthalkay/Dropbox/Research/WLCP_replication/"
-global code "${main}/code"
+// >>>>>>>> SET YOUR ROOT FOLDER HERE <<<<<<<<
+global main "C:/Users/yourname/path/to/wlcp"
+// ^ Change this path to the root of the replication package on your machine
+
+global code "${main}/code/stata_code"
 global data "${main}/data"
 global figs "${main}/output/figures"
 global tabs "${main}/output/tables"
@@ -26,8 +28,6 @@ foreach package in ftools reghdfe ppmlhdfe estout {
 		ssc install `package'
 	}
 }
-
-//global gravmain "/Users/jordanrosenthalkay/Dropbox/Research/estimate_damage_ITPD/"
 
 ** data cleaning and construction **
 
