@@ -63,3 +63,8 @@ Below is a description of each file in the folder:
 - *trade_shares.csv* -- the goods trade shares matrix, $\mathbf{T}$. 
 - *nrg_trade_share.csv* -- trade shares in energy.
 - *baseline_csv_suff_stat.csv* -- main model input: country level energy mix, gdp, population, etc augmented with supply elasticities, energy rents, and so on.
+
+
+**`model_output`**
+
+contains .csvs created for the different policy experiments, produced by the julia script, `code/02_compute_suff_stats.jl`. These files are used to produce the figures and tables handled by `code/03_results_figures_tables_wrapper.R`. 

@@ -1,18 +1,18 @@
 # enviro
-
 library(countrycode)
 library(tidyr)
 library(dplyr)
 
-# pop
+# load population (can be used for weighted means)
 popcsv <- read.csv(file.path(dbox,'data/model_input/baseline_csv_suff_stat.csv'))
 pop_threshold <- 0  
 
+# function that shortens name strings for printing
 clean_country_names <- function(vec) {
-  vec <- gsub("\\s*\\(.*?\\)", "", vec)  # remove parentheses and what's inside
-  vec <- gsub(".*Macao.*", "Macao", vec)  # simplify anything containing 'Macao'
-  vec <- gsub(".*Myanmar.*", "Myanmar", vec)  # simplify anything containing 'Myanmar'
-  vec <- trimws(vec)  # remove any leading/trailing whitespace
+  vec <- gsub("\\s*\\(.*?\\)", "", vec)  # extract main string
+  vec <- gsub(".*Macao.*", "Macao", vec)  # fix Macao
+  vec <- gsub(".*Myanmar.*", "Myanmar", vec)  # fix Myanmar
+  vec <- trimws(vec)  # trim whitespace
   return(vec)
 }
 
@@ -42,12 +42,12 @@ add_policy_rows <- function(welfare_csv, country_csv, policy_name, output_file, 
     filter(population >= pop_threshold)
   
   # World-level stats
-  dW_wld <- welfare_data$dW_wld_u #weighted.mean(country_data$dW, country_data$population, na.rm = TRUE)
+  dW_wld <- welfare_data$dW_wld_u
   dϵ_eq <- welfare_data$dϵ_eq
   dqf <- welfare_data$dqf
-  d_damages_world <- welfare_data$dW_Dy_wld_u #weighted.mean(country_data$d_damages, country_data$population, na.rm = TRUE)
-  d_nrg_world <- welfare_data$dW_e_wld_u + welfare_data$dW_π_wld_u #weighted.mean(country_data$d_rents, country_data$population, na.rm = TRUE)
-  d_trade_world <- welfare_data$dW_p_wld_u #weighted.mean(country_data$d_tot, country_data$population, na.rm = TRUE)
+  d_damages_world <- welfare_data$dW_Dy_wld_u 
+  d_nrg_world <- welfare_data$dW_e_wld_u + welfare_data$dW_π_wld_u 
+  d_trade_world <- welfare_data$dW_p_wld_u 
   
   # Top 3 winners and losers by welfare
   top_winners <- country_data %>% arrange(desc(dW)) %>% slice(1:5)
@@ -80,7 +80,6 @@ add_policy_rows <- function(welfare_csv, country_csv, policy_name, output_file, 
   avg_winner_damages_fmt <- sprintf("%.2f", avg_winner_damages)
   avg_loser_damages_fmt <- sprintf("%.2f", avg_loser_damages)
   
-  
   # Country names
   winner_names_vec <- countrycode(top_winners$iso3, "iso3c", "country.name")
   winner_names_vec <- clean_country_names(winner_names_vec)
@@ -103,7 +102,7 @@ add_policy_rows <- function(welfare_csv, country_csv, policy_name, output_file, 
 }
 
 # Create table structure
-output_file <- file.path(savepath, "carbon_tax_table.tex")
+output_file <- file.path(output_path, "tables/carbon_tax_table.tex")
 cat("\\begin{tabular}{lcccc} \n", file = output_file)
 cat("~ & \\shortstack{\\% change \\\\ welfare} & \\shortstack{\\% change \\\\ climate damages} & \\shortstack{\\% change \\\\ energy effects} & \\shortstack{\\% change \\\\ trade effects} \\\\ \n", file = output_file, append = TRUE)
 
@@ -133,5 +132,5 @@ cat("\\end{tabular} \n", file = output_file, append = TRUE)
 # Print message
 cat("LaTeX table written to:", output_file, "\n")
 
-# Optional: also print to console to see the output
+# Print to console to see the output
 readLines(output_file)
