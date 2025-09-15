@@ -31,7 +31,7 @@ reshape wide y_ , i(iso3 year) j(v1) string
 
 * merge on temperature
 preserve
-insheet using "C:\Users\l1aps02\FRB SF Dropbox\Aleisha Sawyer\WLCC_replication\data\int\country_avg_temp_timeseries_ghs_popweight.csv" , clear
+insheet using "$data/int/country_avg_temp_timeseries_ghs_popweight.csv" , clear
 destring weighted_temp , replace force 
 destring weighted_lat , replace force 
 destring weighted_lon , replace force 

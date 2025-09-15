@@ -2,9 +2,6 @@
 * load trade data
 use "$data/int/trade_collapse_noNRG" , clear
 
-* merge bilateral costs
-merge m:1 iso3_o iso3_d using "$data/int/bilateral_costs" , keep(2 3) nogen
-
 * set data
 bys iso3_o iso3_d (year) : gen yearN = 17-_N
 replace yearN = yearN+1 if yearN>0
@@ -33,6 +30,7 @@ save `gdp_o'
 
 restore 
 
+** grab country level data **
 preserve 
 
 use "$data/int/global_gdp_panel"  , clear 
@@ -59,35 +57,24 @@ gen ldist = ln(distance)
 egen double oy = group(iso3_o year)
 egen double dy = group(iso3_d year)
 
-gen jself_trade = trade if iso3_o == iso3_d // that's probably it
+gen jself_trade = trade if iso3_o == iso3_d 
 bys iso3_d year : egen  self_trade = mean(jself_trade)
 
 gen l_trade_rat = ln( trade / self_trade )
 
 gen trade_rat = trade / self_trade
 
-
-** estimation 
-
-*global bivarlist "colony_of_origin_ever colony_of_destination_ever common_colonizer common_legal_origin contiguity common_language same_country same_region  member_eu_joint"
-
+* set panel variables variables
 egen double panel_id = group(iso3_o iso3_d)
 
+* temperature variables
 bys iso3_o : egen mtemp = mean(temp_o)
-
-tsset panel_id year 
-gen l1temp_o = L.temp_o 
-gen l1temp_d = L.temp_d
 
 gen temp2_o = temp_o * temp_o
 gen temp2_d = temp_d * temp_d
 
-gen l1temp2_o = L.temp2_o
-gen l1temp2_d = L.temp2_d
-
 gen tdif = temp_o - temp_d 
 gen tdif2 = temp2_o - temp2_d 
-
 
 compress
 save "$data/int/trade_estimation_panel" , replace

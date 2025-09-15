@@ -38,7 +38,7 @@ save "$data/int/wdi_nrg_o" , replace
 
 
 ** repeat, exchange o-names with d- (destination)
-insheet using "C:\Users\l1aps02\FRB SF Dropbox\Aleisha Sawyer\WLCC_replication\data\raw\WDI_energy_data_extract.csv" , clear names
+insheet using "$data/raw/WDI_energy_data_extract.csv" , clear names
 
 ren countrycode iso3_d
 

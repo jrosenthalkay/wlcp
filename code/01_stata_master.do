@@ -37,20 +37,18 @@ do "${code}/02_clean_wdi.do"
 
 do "${code}/03_clean_trade_data.do"
 
-do "${code}/04_clean_bilateral_variables.do"
-
-do "${code}/05_build_estimation_panel.do"
+do "${code}/04_build_estimation_panel.do"
 
 ** damage function and supply elasticity estimation **
 
-do "${code}/06_damage_estimation.do"
+do "${code}/05_damage_estimation.do"
 
-do "${code}/07_estimate_nu.do"
+do "${code}/06_estimate_nu.do"
 
 ** input to counterfactuals **
 
-do "${code}/08_get_trade_shares.do"
+do "${code}/07_get_trade_shares.do"
 
-do "${code}/09_get_energy_import_export_shares.do"
+do "${code}/08_get_energy_import_export_shares.do"
 
-do "${code}/10_create_baseline.csv"
+do "${code}/09_create_baseline.csv"
