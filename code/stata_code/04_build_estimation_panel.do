@@ -13,7 +13,7 @@ bys iso3_o iso3_d (year) : replace year = 1999 + _n if mi(year)
 * true zeros
 replace trade = 0 if mi(trade) & iso3_o != iso3_d 
 
-collapse (first) trade colony* common* contig* same* member* distance* , by(iso3_o iso3_d year)
+collapse (first) trade , by(iso3_o iso3_d year)
 
 ** get temperature data **
 preserve 
