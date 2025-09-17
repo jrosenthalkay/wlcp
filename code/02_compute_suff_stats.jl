@@ -858,24 +858,24 @@ dWdec1w_n = m1.dX[:,11:15]
 df1 = DataFrame([dWdec1 ;dWdec1w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df1.iso3 =  [iso3_l;"WLD"] 
 
-CSV.write("output/model_output/welfare_climate_l_1pc.csv", df1)
+CSV.write("data/model_output/welfare_climate_l_1pc.csv", df1)
 
 # save output for 12% carbon impulse 
 df12 = DataFrame(12*[dWdec1 ;dWdec1w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df12.iso3 = [iso3_l;"WLD"]  
 
-CSV.write("output/model_output/welfare_climate_l_12pc.csv", df12)
+CSV.write("data/model_output/welfare_climate_l_12pc.csv", df12)
 
 df12_x = DataFrame(12*m1.dx,:auto)
 rename!(df12_x, m1.name_varx)
 df12_x.iso3 = iso3_l  
 
-CSV.write("output/model_output//welfare_climate_l_12pc_dx.csv", df12_x)
+CSV.write("data/model_output/welfare_climate_l_12pc_dx.csv", df12_x)
 
 df12_X = DataFrame(12*m1.dX,:auto)
 rename!(df12_X, m1.name_varX)
 
-CSV.write("output/model_output//welfare_climate_l_12pc_dXagg.csv", df12_X)
+CSV.write("data/model_output//welfare_climate_l_12pc_dXagg.csv", df12_X)
 
 
 #
@@ -986,18 +986,18 @@ dWdec2w = m2.dX[:,6:10]
 df2_us = DataFrame([dWdec2 ;dWdec2w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df2_us.iso3 = [iso3_l;"WLD"]  
 
-CSV.write("output/model_output/welfare_carbontaxUS_l_50.csv", df2_us)
+CSV.write("data/model_output/welfare_carbontaxUS_l_50.csv", df2_us)
 
 df2_us_x = DataFrame(m2.dx,:auto)
 rename!(df2_us_x, m2.name_varx)
 df2_us_x.iso3 = iso3_l 
 
-CSV.write("output/model_output/welfare_carbontaxUS_l_50_dx.csv", df2_us_x)
+CSV.write("data/model_output/welfare_carbontaxUS_l_50_dx.csv", df2_us_x)
 
 df2_us_X = DataFrame(m2.dX,:auto)
 rename!(df2_us_X, m2.name_varX)
 
-CSV.write("output/model_output/welfare_carbontaxUS_l_50_dXagg.csv", df2_us_X)
+CSV.write("data/model_output/welfare_carbontaxUS_l_50_dXagg.csv", df2_us_X)
 
 
 
@@ -1028,18 +1028,18 @@ dWdec2w = m2.dX[:,6:10]
 df2_chn = DataFrame([dWdec2;dWdec2w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df2_chn.iso3 =  [iso3_l;"WLD"]  
 
-CSV.write("output/model_output/welfare_carbontaxCHN_l_50.csv", df2_chn)
+CSV.write("data/model_output/welfare_carbontaxCHN_l_50.csv", df2_chn)
 
 df2_chn_x = DataFrame(m2.dx,:auto)
 rename!(df2_chn_x, m2.name_varx)
 df2_chn_x.iso3 = iso3_l  # replace `rand(10)` with your data
 
-CSV.write("output/model_output/welfare_carbontaxCHN_l_50_dx.csv", df2_chn_x)
+CSV.write("data/model_output/welfare_carbontaxCHN_l_50_dx.csv", df2_chn_x)
 
 df2_chn_X = DataFrame(m2.dX,:auto)
 rename!(df2_chn_X, m2.name_varX)
 
-CSV.write("output/model_output/welfare_carbontaxCHN_l_50_dXagg.csv", df2_chn_X)
+CSV.write("data/model_output/welfare_carbontaxCHN_l_50_dXagg.csv", df2_chn_X)
 
 
 ####################################
@@ -1071,18 +1071,18 @@ end
 df4_i = DataFrame(dWdec4_i,[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df4_i.iso3 = iso3_l  
 
-CSV.write("output/model_output/welfare_carbontax_unilateral_i_l_50.csv", df4_i)
+CSV.write("data/model_output/welfare_carbontax_unilateral_i_l_50.csv", df4_i)
 
 
 df4_w = DataFrame(dWdec4_w,[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df4_w.iso3 = iso3_l  
 
-CSV.write("output/model_output/welfare_carbontax_unilateral_w_l_50.csv", df4_w)
+CSV.write("data/model_output/welfare_carbontax_unilateral_w_l_50.csv", df4_w)
 
 df4_X = DataFrame(dXagg4_w,:auto)
 rename!(df4_X, m1.name_varX)
 
-CSV.write("output/model_output/welfare_carbontax_unilateral_X_l_50_dXagg.csv", df4_X)
+CSV.write("data/model_output/welfare_carbontax_unilateral_X_l_50_dXagg.csv", df4_X)
 
 ###########################
 ### Unilateral subsidy ####
@@ -1112,17 +1112,17 @@ end
 df5_i = DataFrame(dWdec5_i,[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df5_i.iso3 = iso3_l  
 
-CSV.write("output/model_output/welfare_renewsubsidy_unilateral_i_l_50.csv", df5_i)
+CSV.write("data/model_output/welfare_renewsubsidy_unilateral_i_l_50.csv", df5_i)
 
 
 df5_w = DataFrame(dWdec5_w,[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df5_w.iso3 = iso3_l  
-CSV.write("output/model_output/welfare_renewsubsidy_unilateral_w_l_50.csv", df5_w)
+CSV.write("data/model_output/welfare_renewsubsidy_unilateral_w_l_50.csv", df5_w)
 
 df5_X = DataFrame(dXagg5_w,:auto)
 rename!(df5_X, m2.name_varX)
 
-CSV.write("output/model_output/welfare_renewsubsidy_unilateral_X_l_50_dXagg.csv", df5_X)
+CSV.write("data/model_output/welfare_renewsubsidy_unilateral_X_l_50_dXagg.csv", df5_X)
 
 ##########################
 ## US renewable subsidy ##
@@ -1157,18 +1157,18 @@ dWdec6w = m6.dX[:,6:10]
 
 df6_us = DataFrame([dWdec6 ;dWdec6w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df6_us.iso3 = [iso3_l;"WLD"]  
-CSV.write("output/model_output//welfare_carbontariff_US_l_50.csv", df6_us)
+CSV.write("data/model_output//welfare_carbontariff_US_l_50.csv", df6_us)
 
 df6_us_x = DataFrame(m6.dx,:auto)
 rename!(df6_us_x, m2.name_varx)
 df6_us_x.iso3 = iso3_l 
 
-CSV.write("output/model_output//welfare_carbontariff_l_50_dx.csv", df6_us_x)
+CSV.write("data/model_output//welfare_carbontariff_l_50_dx.csv", df6_us_x)
 
 df6_us_X = DataFrame(m6.dX,:auto)
 rename!(df6_us_X, m2.name_varX)
 
-CSV.write("output/model_output/welfare_carbontariff_l_50_dXagg.csv", df6_us_X)
+CSV.write("data/model_output/welfare_carbontariff_l_50_dXagg.csv", df6_us_X)
 
 ############################################
 ###### Unilateral Carbon tax + CBAM ########
@@ -1201,17 +1201,17 @@ end
 df10_i = DataFrame(dWdec10_i,[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df10_i.iso3 = iso3_l  
 
-CSV.write("output/model_output/welfare_carbontax_carbontariffs_unilateral_i_l_50.csv", df10_i)
+CSV.write("data/model_output/welfare_carbontax_carbontariffs_unilateral_i_l_50.csv", df10_i)
 
 df10_w = DataFrame(dWdec10_i,[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df10_w.iso3 = iso3_l  
 
-CSV.write("output/model_output/welfare_carbontax_carbontariffs_unilateral_w_l_50.csv", df10_w)
+CSV.write("data/model_output/welfare_carbontax_carbontariffs_unilateral_w_l_50.csv", df10_w)
 
 df10_X = DataFrame(dXagg10_w,:auto)
 rename!(df10_X, m1.name_varX)
 
-CSV.write("output/model_output/welfare_carbontax_carbontariffs_unilateral_X_l_50_dXagg.csv", df10_X)
+CSV.write("data/model_output/welfare_carbontax_carbontariffs_unilateral_X_l_50_dXagg.csv", df10_X)
 
 ########################################
 ############# EU carbon tax ############
@@ -1234,18 +1234,18 @@ dWdec7w = m7.dX[:,6:10]
 df7_eu = DataFrame([dWdec7 ;dWdec7w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df7_eu.iso3 = [iso3_l;"WLD"]  
 
-CSV.write("output/model_output/welfare_carbontax_EU_l_50.csv", df7_eu)
+CSV.write("data/model_output/welfare_carbontax_EU_l_50.csv", df7_eu)
 
 df7_eu_x = DataFrame(m7.dx,:auto)
 rename!(df7_eu_x, m7.name_varx)
 df7_eu_x.iso3 = iso3_l 
 
-CSV.write("output/model_output/welfare_carbontax_EU_l_50_dx.csv", df7_eu_x)
+CSV.write("data/model_output/welfare_carbontax_EU_l_50_dx.csv", df7_eu_x)
 
 df7_eu_X = DataFrame(m7.dX,:auto)
 rename!(df7_eu_X, m7.name_varX)
 
-CSV.write("output/model_output/welfare_carbontax_EU_l_50_dXagg.csv", df7_eu_X)
+CSV.write("data/model_output/welfare_carbontax_EU_l_50_dXagg.csv", df7_eu_X)
 
 ########################################
 ############# EU CBAM alone ############
@@ -1266,16 +1266,16 @@ dWdec9w = m9.dX[:,6:10]
 
 df9_eu = DataFrame([dWdec9 ;dWdec9w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df9_eu.iso3 = [iso3_l;"WLD"]  
-CSV.write("output/model_output/welfare_carbontariff_EU_l_50.csv", df9_eu)
+CSV.write("data/model_output/welfare_carbontariff_EU_l_50.csv", df9_eu)
 
 df9_eu_x = DataFrame(m9.dx,:auto)
 rename!(df9_eu_x, m9.name_varx)
 df9_eu_x.iso3 = iso3_l 
-CSV.write("output/model_output/welfare_carbontariff_EU_l_50_dx.csv", df9_eu_x)
+CSV.write("data/model_output/welfare_carbontariff_EU_l_50_dx.csv", df9_eu_x)
 
 df9_eu_X = DataFrame(m9.dX,:auto)
 rename!(df9_eu_X, m9.name_varX)
-CSV.write("output/model_output/welfare_carbontariff_EU_l_50_dXagg.csv", df9_eu_X)
+CSV.write("data/model_output/welfare_carbontariff_EU_l_50_dXagg.csv", df9_eu_X)
 
 ###############################################
 ############# EU carbon tax + CBAM ############
@@ -1298,18 +1298,18 @@ dWdec8w = m8.dX[:,6:10]
 df8_eu = DataFrame([dWdec8 ;dWdec8w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df8_eu.iso3 = [iso3_l;"WLD"]  
 
-CSV.write("output/model_output/welfare_carbontax_carbontariff_EU_l_50.csv", df8_eu)
+CSV.write("data/model_output/welfare_carbontax_carbontariff_EU_l_50.csv", df8_eu)
 
 df8_eu_x = DataFrame(m8.dx,:auto)
 rename!(df8_eu_x, m8.name_varx)
 df8_eu_x.iso3 = iso3_l 
 
-CSV.write("output/model_output/welfare_carbontax_carbontariff_EU_l_50_dx.csv", df8_eu_x)
+CSV.write("data/model_output/welfare_carbontax_carbontariff_EU_l_50_dx.csv", df8_eu_x)
 
 df8_eu_X = DataFrame(m8.dX,:auto)
 rename!(df8_eu_X, m8.name_varX)
 
-CSV.write("output/model_output/welfare_carbontax_carbontariff_EU_l_50_dXagg.csv", df8_eu_X)
+CSV.write("data/model_output/welfare_carbontax_carbontariff_EU_l_50_dXagg.csv", df8_eu_X)
 
 #####################################
 ############# Asean CBAM ############
@@ -1331,18 +1331,18 @@ dWdec11w = m11.dX[:,6:10]
 df11_as = DataFrame([dWdec11 ;dWdec11w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df11_as.iso3 = [iso3_l;"WLD"]  
 
-CSV.write("output/model_output/welfare_carbontariff_As_l_50.csv", df11_as)
+CSV.write("data/model_output/welfare_carbontariff_As_l_50.csv", df11_as)
 
 df11_as_x = DataFrame(m11.dx,:auto)
 rename!(df11_as_x, m11.name_varx)
 df11_as_x.iso3 = iso3_l 
 
-CSV.write("output/model_output/welfare_carbontariff_As_l_50_dx.csv", df11_as_x)
+CSV.write("data/model_output/welfare_carbontariff_As_l_50_dx.csv", df11_as_x)
 
 df11_as_X = DataFrame(m11.dX,:auto)
 rename!(df11_as_X, m11.name_varX)
 
-CSV.write("output/model_output/welfare_carbontariff_As_l_50_dXagg.csv", df11_as_X)
+CSV.write("data/model_output/welfare_carbontariff_As_l_50_dXagg.csv", df11_as_X)
 
 ########################################
 ########## Asean carbon tax ############
@@ -1365,18 +1365,18 @@ dWdec12w = m12.dX[:,6:10]
 df12_as = DataFrame([dWdec12 ;dWdec12w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df12_as.iso3 = [iso3_l;"WLD"]  
 
-CSV.write("output/model_output/welfare_carbontax_As_l_50.csv", df12_as)
+CSV.write("data/model_output/welfare_carbontax_As_l_50.csv", df12_as)
 
 df12_as_x = DataFrame(m12.dx,:auto)
 rename!(df12_as_x, m12.name_varx)
 df12_as_x.iso3 = iso3_l 
 
-CSV.write("output/model_output/welfare_carbontax_As_l_50_dx.csv", df12_as_x)
+CSV.write("data/model_output/welfare_carbontax_As_l_50_dx.csv", df12_as_x)
 
 df12_as_X = DataFrame(m12.dX,:auto)
 rename!(df12_as_X, m12.name_varX)
 
-CSV.write("output/model_output/welfare_carbontax_As_l_50_dXagg.csv", df12_as_X)
+CSV.write("data/model_output/welfare_carbontax_As_l_50_dXagg.csv", df12_as_X)
 
 ###############################################
 ########## Asean carbon tax + CBAM ############
@@ -1399,18 +1399,18 @@ dWdec13w = m13.dX[:,6:10]
 df13_as = DataFrame([dWdec13 ;dWdec13w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df13_as.iso3 = [iso3_l;"WLD"]  
 
-CSV.write("output/model_output/welfare_carbontax_carbontariff_As_l_50.csv", df13_as)
+CSV.write("data/model_output/welfare_carbontax_carbontariff_As_l_50.csv", df13_as)
 
 df13_as_x = DataFrame(m13.dx,:auto)
 rename!(df13_as_x, m13.name_varx)
 df13_as_x.iso3 = iso3_l 
 
-CSV.write("output/model_output/welfare_carbontax_carbontariff_As_l_50_dx.csv", df13_as_x)
+CSV.write("data/model_output/welfare_carbontax_carbontariff_As_l_50_dx.csv", df13_as_x)
 
 df13_as_X = DataFrame(m13.dX,:auto)
 rename!(df13_as_X, m13.name_varX)
 
-CSV.write("output/model_output/welfare_carbontax_carbontariff_As_l_50_dXagg.csv", df13_as_X)
+CSV.write("data/model_output/welfare_carbontax_carbontariff_As_l_50_dXagg.csv", df13_as_X)
 
 ###########################
 ### Global carbon tax #####
@@ -1430,18 +1430,18 @@ dWdec3w = m3.dX[:,6:10]
 df3_wld = DataFrame([dWdec3;dWdec3w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df3_wld.iso3 = [iso3_l;"WLD"] 
 
-CSV.write("output/model_output/welfare_carbontaxWLD_l_50.csv", df3_wld)
+CSV.write("data/model_output/welfare_carbontaxWLD_l_50.csv", df3_wld)
 
 df3_wld_x = DataFrame(m3.dx,:auto)
 rename!(df3_wld_x, m3.name_varx)
 df3_wld_x.iso3 = iso3_l  
 
-CSV.write("output/model_output/welfare_carbontaxWLD_l_50_dx.csv", df3_wld_x)
+CSV.write("data/model_output/welfare_carbontaxWLD_l_50_dx.csv", df3_wld_x)
 
 df3_wld_X = DataFrame(m3.dX,:auto)
 rename!(df3_wld_X, m3.name_varX)
 
-CSV.write("output/model_output/welfare_carbontaxWLD_l_50_dXagg.csv", df3_wld_X)
+CSV.write("data/model_output/welfare_carbontaxWLD_l_50_dXagg.csv", df3_wld_X)
 
 
 

@@ -19,11 +19,6 @@ library(patchwork)
 # read in data 
 data <- read_csv(file.path(path,'welfare_climate_l_12pc.csv'))
 
-
-#"C:\Users\l1aps02\FRB SF Dropbox\Aleisha Sawyer\WLCC_replication\output\model_output\welfare_climate_l_12pc.csv"
-
-#data <- read_csv(file.path('Users/l1aps02/FRB SF Dropbox/Aleisha Sawyer/WLCC_replication/output/model_output', 'welfare_climate_l_12pc.csv'))
-
 # Get world map data
 world <- ne_countries(scale = "medium", returnclass = "sf")
 
