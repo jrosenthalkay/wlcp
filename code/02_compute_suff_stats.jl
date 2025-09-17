@@ -306,7 +306,7 @@ savefig("output/figures/data_tradeshare_matrix_v5_25.png")
     T_horizon = 92
     s_ES = T_horizon .* EmEm ./ (S0 .+ T_horizon.*EmEm) 
     
-    tstar = 14.02
+    tstar = 14.007
     t̄ = 0.5 .* tstar .+ 0.5 * tt
     # κ+ = 0.00311, and κ− = 0.00456. Krusell Smith 2022
     # κ+ = κ− = 0.002388    Kotlikoff et al climate policy and welfare
