@@ -52,8 +52,6 @@ merge m:1 iso3_o year using "$data/int/wdi_nrg_o" , keep(1 3) nogen
 merge m:1 iso3_d year using "$data/int/wdi_nrg_d" , keep(1 3) nogen
 
 * vars
-gen ldist = ln(distance)
-
 egen double oy = group(iso3_o year)
 egen double dy = group(iso3_d year)
 
