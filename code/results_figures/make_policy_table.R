@@ -4,7 +4,7 @@ library(tidyr)
 library(dplyr)
 
 # load population (can be used for weighted means)
-popcsv <- read.csv(file.path(dbox,'data/model_input/baseline_csv_suff_stat.csv'))
+popcsv <- read.csv(file.path(root,'data/model_input/baseline_csv_suff_stat.csv'))
 pop_threshold <- 0  
 
 # function that shortens name strings for printing
