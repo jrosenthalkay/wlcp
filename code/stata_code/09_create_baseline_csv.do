@@ -3,11 +3,10 @@
 * carbon intensity
 insheet using "$data/raw/co2-intensity.csv" , clear 
 
-ren a carbon_intensity
+ren AnnualCO carbon_intensity
 ren code iso3 
-keep if inrange(year,2000,2016)
 
-collapse a , by(iso3)
+collapse carbon_intensity , by(iso3 year)
 
 tempfile c02_intensity
 save `c02_intensity'
@@ -67,6 +66,8 @@ replace renewable_share = renewable_share/tot
 ren iso_code iso3 
 keep country iso3 year *_share gdp population electricity* e_x primary_energy_consumption ghg_total
 
+merge m:1 iso3 year using `c02_intensity' , nogen keep(1 3)
+
 drop if mi(iso3)
 drop if year < 1985
 
@@ -80,7 +81,7 @@ gen l_elec_demand = ln(electricity_demand)
 gen l_elec_gen = ln(electricity_generation)
 
 * extrapolate 
-foreach var in coal_share fossil_share renewable_share {
+foreach var in coal_share fossil_share renewable_share carbon_intensity {
 	nl (`var' = 1/(1+exp(-({b0} + {d1}*l_elec_demand + {d2}*l_elec_gen + {b1}*lgdp_pc + {b2}*lpop + {b3}*year)))) ///
 	if !mi(`var') & !mi(lgdp_pc) & !mi(year) & !mi(l_elec_gen) & !mi(l_elec_demand)
 predict `var'_hat 
@@ -88,12 +89,12 @@ predict `var'_hat
 
 egen hat_tot = rowtotal(*_hat)
 
-foreach var in coal_share fossil_share renewable_share {
+foreach var in coal_share fossil_share renewable_share carbon_intensity {
 	replace `var'_hat = `var'_hat / hat_tot 
 }
 
 * extrapolate - 2
-foreach var in coal_share fossil_share renewable_share {
+foreach var in coal_share fossil_share renewable_share carbon_intensity {
 	nl (`var' = 1/(1+exp(-({b0} + {b1}*lgdp_pc + {b2}*lpop + {b3}*year)))) ///
 	if !mi(`var') & !mi(lgdp_pc) & !mi(year) 
 predict `var'_hat2
@@ -101,14 +102,14 @@ predict `var'_hat2
 
 egen hat_tot2 = rowtotal(*_hat2)
 
-foreach var in coal_share fossil_share renewable_share {
+foreach var in coal_share fossil_share renewable_share carbon_intensity {
 	replace `var'_hat2 = `var'_hat2 / hat_tot2 
 }
 
 
-collapse *_share *_hat *_hat2 e_x primary_energy_consumption ghg_total if inrange(year,2000,2016) , by(iso3)
+collapse *_share *_hat *_hat2 e_x primary_energy_consumption ghg_total carbon_intensity if inrange(year,2000,2016) , by(iso3)
 
-foreach var in coal_share fossil_share renewable_share {
+foreach var in coal_share fossil_share renewable_share carbon_intensity {
 
 gen `var'_miflag = mi(`var')
 replace `var' = `var'_hat if mi(`var')
@@ -150,7 +151,6 @@ merge 1:1 iso3 using `nuf' , nogen keep(1 3)
 merge 1:1 iso3 using `rents' , nogen keep(1 3)
 merge 1:1 iso3 using `nrg_mix' , nogen keep(1 3)
 merge 1:1 iso3 using `co2em' , nogen keep(1 3)
-merge 1:1 iso3 using `c02_intensity' , nogen keep(1 3)
 
 * drops 
 drop inv_nu_c inv_nu_f
