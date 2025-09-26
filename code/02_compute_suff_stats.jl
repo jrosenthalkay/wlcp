@@ -6,7 +6,7 @@ Code for the computation of sufficient statistics for model counterfactuals
 by Thomas Bourany and Jordan Rosenthal-Kay
 
 Date created: February 2025
-Last updated: August 2025
+Last updated: September 2025
 
 ran on the following environment: 
     Julia Version 1.11.1
@@ -104,6 +104,7 @@ data3[:,15] = data3_raw.nrg_export_share
 data3[:,16] = data3_raw.nrg_import_share
 data3[:,17] = data3_raw.temp
 data3[:,18] = data3_raw.co2_em_mt
+data3[:,19] = data3_raw.carbon_intensity
 
 # flag important iso3 codes for plotting and use for counterfactuals
 iso3 = ["USA", "CAN", "CHN", "DEU", "ESP", "FRA", "GBR", "ITA", "IND", "PAK", "NGA", "ZAF", "EGY", "IRN", "SAU", "TUR", "RUS", "AUS", "JPN", "KOR", "IDN", "THA", "ARG", "BRA", "MEX"]
@@ -124,7 +125,7 @@ iso3_25w = [iso3_25 ; "world"]
 eu_members = ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE"]
 asean_members = ["BRN", "KHM", "IDN", "LAO", "MYS", "MMR", "PHL", "SGP", "THA", "VNM"]
 
-# Create a vector of 0s and 1s (1 if in EU, 0 if not)
+# Create a vector of 0s and 1s (1 if in EU, 0 if not; ditto for ASEAN)
 eu_membership = [iso_3 in eu_members ? 1 : 0 for iso_3 in iso3_l]
 asean_membership = [iso_3 in asean_members ? 1 : 0 for iso_3 in iso3_l]
 
@@ -270,6 +271,10 @@ savefig("output/figures/data_tradeshare_matrix_v5_25.png")
     sh_Ef = 0.56104
     sh_Ec = 0.26935
     sh_Er = 0.169599
+
+    # carbon intensity 
+    # convert kg of C02 emitted per dollar of GDP to metric ton / $
+    em_intensity = data3[:,19] ./ 1000
 
     # calibrated parameters 
     θ = 5.0
@@ -584,6 +589,7 @@ function tradeblock_p(par::Params_IAMHAT_suffstats_o, ∂y, ∂ef, dϵ̄, dqf, d
     @unpack ξf,ξc,σ,σe,νf,νc,νr,ν̄f,λef,λec,s_fϵ,s_cϵ, γ̄,ex,ef = par
     @unpack Smat,Tmat_y, θ = par
     @unpack vy, vef, vex, vne = par
+    @unpack em_intensity = par
 
     ∂ex = zeros(Ntot,5)
     ∂ex[:,3] = (1 ./ νf)  
@@ -596,7 +602,7 @@ function tradeblock_p(par::Params_IAMHAT_suffstats_o, ∂y, ∂ef, dϵ̄, dqf, d
     j_in = zeros(Ntot, Ntot); 
     j_in[ind𝕁,:] .= 1.0 ; 
      
-    em_intensity = (ϵϵ ./(pp.* yy))./1000    # carbon intensity (in ton CO2 /$) for one unit of output
+    #em_intensity = (ϵϵ ./(pp.* yy))./1000    # carbon intensity (in ton CO2 /$) for one unit of output
     𝐭bc_ij = ones(Ntot, Ntot) .* (j_in.*(1 .-j_in')).*em_intensity'.*dtb  ;
 
     Jtb = 𝐭bc_ij
