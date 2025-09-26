@@ -13,6 +13,11 @@ Below is a description of each file in the folder:
   
   - It is omitted from the replication folder on GitHub. Please email the authors for a copy of this file if necessary; it is 110MB. It is only used as an input to construct historical country temperatures (which are provided in `data/int`) in the file `00_clean_berkeley_temp.R`. 
   
+- *co2-intensity.csv* -- Carbon intensity data from Our World in Data (OWID): ["Carbon intensity: CO₂ emissions per dollar of GDP"](https://ourworldindata.org/grapher/co2-intensity?time=latest)
+
+> Global Carbon Budget (2024); Bolt and van Zanden – Maddison Project Database 2023 – with major processing by Our World in Data. “Annual CO₂ emissions per GDP (kg per international-$)” [dataset]. Global Carbon Project, “Global Carbon Budget”; Bolt and van Zanden, “Maddison Project Database 2023” [original data].
+Source: Global Carbon Budget (2024), Bolt and van Zanden – Maddison Project Database 2023 – with major processing by Our World In Data
+
 - *coal-prices.csv* -- international coal prices from OWID: ["Coal prices"](https://ourworldindata.org/grapher/coal-prices?v=1&csvType=full&useColumnShortNames=false) downloaded 9 march 2025. OWID cites,
   
   >Energy Institute based on S&P Global Platts - Statistical Review of World Energy (2024) – with major processing by Our World in Data. “Coal” [dataset]. Energy Institute, “Statistical Review of World Energy” [original data].

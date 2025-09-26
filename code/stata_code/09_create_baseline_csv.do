@@ -1,5 +1,17 @@
 // create full baseline for estimation 
 
+* carbon intensity
+insheet using "$data/raw/co2-intensity.csv" , clear 
+
+ren a carbon_intensity
+ren code iso3 
+keep if inrange(year,2000,2016)
+
+collapse a , by(iso3)
+
+tempfile c02_intensity
+save `c02_intensity'
+
 * carbon baseline 
 insheet using "$data/raw/WDI_carbon.csv" , clear name
 
@@ -138,6 +150,7 @@ merge 1:1 iso3 using `nuf' , nogen keep(1 3)
 merge 1:1 iso3 using `rents' , nogen keep(1 3)
 merge 1:1 iso3 using `nrg_mix' , nogen keep(1 3)
 merge 1:1 iso3 using `co2em' , nogen keep(1 3)
+merge 1:1 iso3 using `c02_intensity' , nogen keep(1 3)
 
 * drops 
 drop inv_nu_c inv_nu_f
