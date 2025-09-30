@@ -131,7 +131,7 @@ label var temp2_o "Exporter Temperature$ ^2 $ "
 label var temp_d "Importer Temperature (C)"
 label var temp2_d "Importer Temperature$ ^2 $ "
 label var tdif "Exporter-Importer Temperature (C) difference"
-label var tdif2 "Exporter-Importer Temperature$ ^2 difference $ "
+label var tdif2 "Exporter-Importer Temperature$ ^2 $ difference "
 
 esttab y_nrg_ols_both y_nrg_ols_one y_nrg_poisson_both y_nrg_poisson_one using "$tabs/grav_results.tex", ///
     b(%4.3fc) se(%4.3fc) star(* 0.10 ** 0.05 *** 0.01) ///
