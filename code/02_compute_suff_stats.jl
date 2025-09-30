@@ -79,7 +79,7 @@ write(outfile*"SCC_ests.txt", "")
 
 # read in sufficient statistics csv
 data3_raw = CSV.read("data/model_input/baseline_csv_suff_stat.csv", DataFrame)
-data3 = zeros(193,18) ; 
+data3 = zeros(193,19) ; 
 
 # rescale gdp and population numbers
 data3_raw.population = data3_raw.population./1e6
@@ -311,7 +311,7 @@ savefig("output/figures/data_tradeshare_matrix_v5_25.png")
     T_horizon = 92
     s_ES = T_horizon .* EmEm ./ (S0 .+ T_horizon.*EmEm) 
     
-    tstar = 14.007
+    tstar = 14.016
     t̄ = 0.5 .* tstar .+ 0.5 * tt
     # κ+ = 0.00311, and κ− = 0.00456. Krusell Smith 2022
     # κ+ = κ− = 0.002388    Kotlikoff et al climate policy and welfare
