@@ -84,7 +84,22 @@ gen l_elec_gen = ln(electricity_generation)
 foreach var in coal_share fossil_share renewable_share carbon_intensity {
 	nl (`var' = 1/(1+exp(-({b0} + {d1}*l_elec_demand + {d2}*l_elec_gen + {b1}*lgdp_pc + {b2}*lpop + {b3}*year)))) ///
 	if !mi(`var') & !mi(lgdp_pc) & !mi(year) & !mi(l_elec_gen) & !mi(l_elec_demand)
-predict `var'_hat 
+	* predict out of sample; nb: `predict' no longer extrapolates outside of e(sample)
+	local b0 = _b[/b0]
+    local b1 = _b[/b1]
+    local b2 = _b[/b2]
+    local b3 = _b[/b3]
+    local d1 = _b[/d1]
+    local d2 = _b[/d2]
+
+    cap drop `var'_hat
+    gen double `var'_hat = 1/(1 + exp(-(`b0' ///
+        + `d1'*l_elec_demand ///
+        + `d2'*l_elec_gen ///
+        + `b1'*lgdp_pc ///
+        + `b2'*lpop ///
+        + `b3'*year))) ///
+        if !mi(lgdp_pc) & !mi(year) & !mi(l_elec_gen) & !mi(l_elec_demand)
 }
 
 egen hat_tot = rowtotal(*_hat)
@@ -97,7 +112,19 @@ foreach var in coal_share fossil_share renewable_share carbon_intensity {
 foreach var in coal_share fossil_share renewable_share carbon_intensity {
 	nl (`var' = 1/(1+exp(-({b0} + {b1}*lgdp_pc + {b2}*lpop + {b3}*year)))) ///
 	if !mi(`var') & !mi(lgdp_pc) & !mi(year) 
-predict `var'_hat2
+	* predict for remainders that don't have electricity demand info 
+	* predict out of sample; nb: `predict' no longer extrapolates outside of e(sample)
+	local b0 = _b[/b0]
+    local b1 = _b[/b1]
+    local b2 = _b[/b2]
+    local b3 = _b[/b3]
+
+    cap drop `var'_hat2
+    gen double `var'_hat2 = 1/(1 + exp(-(`b0' ///
+        + `b1'*lgdp_pc ///
+        + `b2'*lpop ///
+        + `b3'*year))) ///
+        if !mi(lgdp_pc) & !mi(year) & !mi(l_elec_gen) & !mi(l_elec_demand)
 }
 
 egen hat_tot2 = rowtotal(*_hat2)
@@ -170,11 +197,45 @@ reg nrg_export_share lgdp temp
 
 nl (nrg_export_share = 1/(1+exp(-({b0} + {b1}*temp + {b2}*lgdp + {b3}*fossil_share + {b4}*extraction_cost + {b5}*abslat )))) ///
 	if !mi(nrg_export_share) & !mi(lgdp) & !mi(fossil_share) & !mi(extraction_cost)
-predict nrg_export_share_hat 
+
+local b0 = _b[/b0]
+local b1 = _b[/b1]
+local b2 = _b[/b2]
+local b3 = _b[/b3]
+local b4 = _b[/b4]
+local b5 = _b[/b5]
+
+cap drop nrg_export_share_hat
+gen double nrg_export_share_hat = ///
+    1/(1 + exp(-( `b0' ///
+                 + `b1'*temp ///
+                 + `b2'*lgdp ///
+                 + `b3'*fossil_share ///
+                 + `b4'*extraction_cost ///
+                 + `b5'*abslat ))) ///
+    if !mi(temp) & !mi(lgdp) & !mi(fossil_share) ///
+       & !mi(extraction_cost) & !mi(abslat)
 
 nl (nrg_import_share = 1/(1+exp(-({b0} + {b1}*temp + {b2}*lgdp + {b3}*fossil_share + {b4}*extraction_cost + {b5}*abslat )))) ///
 	if !mi(nrg_export_share) & !mi(lgdp) & !mi(fossil_share) & !mi(extraction_cost)
-predict nrg_import_share_hat 
+
+local b0 = _b[/b0]
+local b1 = _b[/b1]
+local b2 = _b[/b2]
+local b3 = _b[/b3]
+local b4 = _b[/b4]
+local b5 = _b[/b5]
+
+cap drop nrg_import_share_hat
+gen double nrg_import_share_hat = ///
+    1/(1 + exp(-( `b0' ///
+                 + `b1'*temp ///
+                 + `b2'*lgdp ///
+                 + `b3'*fossil_share ///
+                 + `b4'*extraction_cost ///
+                 + `b5'*abslat ))) ///
+    if !mi(temp) & !mi(lgdp) & !mi(fossil_share) ///
+       & !mi(extraction_cost) & !mi(abslat) 
 
 * gen miflags 
 gen nrg_import_share_miflag = mi(nrg_import_share)
@@ -195,7 +256,7 @@ egen missing_flag = rowmiss(_all)
 tab missing_flag
 
 tab iso3 if missing_flag // all small
-
+/*
 drop if missing_flag 
 
 // qf 
