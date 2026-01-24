@@ -256,7 +256,7 @@ egen missing_flag = rowmiss(_all)
 tab missing_flag
 
 tab iso3 if missing_flag // all small
-/*
+
 drop if missing_flag 
 
 // qf 

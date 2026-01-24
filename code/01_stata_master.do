@@ -13,7 +13,7 @@ last updated: 26 august 2025
 
 * set up relative paths
 // >>>>>>>> SET YOUR ROOT FOLDER HERE <<<<<<<<
-global main "C:/Users/yourname/path/to/wlcp"
+global main "C:/Users/path/to/root/wlcp"
 // ^ Change this path to the root of the replication package on your machine
 
 global code "${main}/code/stata_code"
@@ -31,7 +31,7 @@ foreach package in ftools reghdfe ppmlhdfe estout {
 
 ** data cleaning and construction **
 
-do "${code}/01_clean_energy_data"
+do "${code}/01_clean_energy_data.do"
 
 do "${code}/02_clean_wdi.do"
 

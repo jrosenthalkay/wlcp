@@ -13,7 +13,7 @@ library(countrycode)
 
 # --- paths -----
 # >>>>>>>> SET YOUR ROOT FOLDER HERE <<<<<<<<
-root <- 'C:/Users/path/to/root/wlcp'
+root <- "C:/Users/path/to/root/wlcp"
 # ^ Change this path to the root of the replication package on your machine
 
 output_path <- file.path(root,'output')

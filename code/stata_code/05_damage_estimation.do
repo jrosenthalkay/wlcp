@@ -138,8 +138,8 @@ esttab y_nrg_ols_both y_nrg_ols_one y_nrg_poisson_both y_nrg_poisson_one using "
     label booktabs replace ///
 	keep(temp_o temp2_o temp_d temp2_d tdif tdif2 ) numbers nomtit nonotes ///
     mgroups("OLS" "Poisson", pattern(1 0 1 0) span prefix(\multicolumn{@span}{c}{) suffix(}) erepeat(\cmidrule(lr){@span})) ///
-    stats(tstar tstar_se gam gam_se pair_fe origin_fp r2 r2_p N ///
-		, fmt(%4.3fc %12.0s %4.3fc %12.0s %12.0s %12.0s %4.3fc %4.3fc %9.0fc) ///
+    stats(tstar tstar_se gam gam_se pair_fe origin_fp origin_fp r2 r2_p N ///
+		, fmt(%4.3fc %12.0s %4.3fc %12.0s %12.0s %12.0s %12.0s %4.3fc %4.3fc %9.0fc) ///
 		labels("$ T^* $" "~" "$ \gamma $" "~" "Importer-Exporter pair FE" "Origin GDP/cap control" "Origin energy controls" "R$^2$" "Pseudo-R$^2$" "Observations"))
 		
 **

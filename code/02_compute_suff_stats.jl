@@ -32,7 +32,7 @@ ran on the following environment:
 # --------------------------------------------------------------------------------
 
 # >>>>>>>> SET YOUR ROOT FOLDER HERE <<<<<<<<
-cd("C:/Users/path/to/wlcp") # <-- Change this to the repo root on your machine
+cd("C:/Users/path/to/root/wlcp") # <-- Change this to the repo root on your machine
 
 # packages
 using Pkg, Base.Threads # Pkg must be installed, so as to install other dependencies
@@ -55,17 +55,21 @@ Pkg_list = ["Parameters",
     "Arpack",
     "Roots",
     "ForwardDiff",
-    "NLsolve",
     "LaTeXStrings",
     "CSV",
     "DataFrames",
     "Optim"
 ]
 
-# load / instlal packages
+# load / install packages
 for pkg in Pkg_list 
     require(pkg)
 end
+
+# pin NL solve for julia 1.11 or greater issues 
+# NLsolve / forwarddiff compatability 
+Pkg.pin(Pkg.PackageSpec(name="NLsolve", version="4.5.1"))
+require("NLsolve")
 
 # create a blank .txt file that records statistics that do not appear in figures / tables.
 outfile = "output/"
@@ -881,7 +885,7 @@ CSV.write("data/model_output/welfare_climate_l_12pc_dx.csv", df12_x)
 df12_X = DataFrame(12*m1.dX,:auto)
 rename!(df12_X, m1.name_varX)
 
-CSV.write("data/model_output//welfare_climate_l_12pc_dXagg.csv", df12_X)
+CSV.write("data/model_output/welfare_climate_l_12pc_dXagg.csv", df12_X)
 
 
 #
@@ -1163,13 +1167,13 @@ dWdec6w = m6.dX[:,6:10]
 
 df6_us = DataFrame([dWdec6 ;dWdec6w],[:dW, :dW_D, :dW_p, :dW_e,:dW_π])
 df6_us.iso3 = [iso3_l;"WLD"]  
-CSV.write("data/model_output//welfare_carbontariff_US_l_50.csv", df6_us)
+CSV.write("data/model_output/welfare_carbontariff_US_l_50.csv", df6_us)
 
 df6_us_x = DataFrame(m6.dx,:auto)
 rename!(df6_us_x, m2.name_varx)
 df6_us_x.iso3 = iso3_l 
 
-CSV.write("data/model_output//welfare_carbontariff_l_50_dx.csv", df6_us_x)
+CSV.write("data/model_output/welfare_carbontariff_l_50_dx.csv", df6_us_x)
 
 df6_us_X = DataFrame(m6.dX,:auto)
 rename!(df6_us_X, m2.name_varX)

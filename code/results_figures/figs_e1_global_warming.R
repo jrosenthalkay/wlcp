@@ -2,18 +2,6 @@
 ## figures for The Winners and Losers of Climate Policies 
 # jordan rosenthal-kay
 
-
-# --- set environment ------
-
-# libraries 
-library(haven)
-library(ggplot2)
-library(sf)
-library(rnaturalearth)
-library(rnaturalearthdata)
-library(dplyr)
-library(patchwork)
-
 # --- read in data ------
 
 # read in data 
@@ -119,5 +107,3 @@ p2 <- ggplot(long_data, aes(x = iso3, y = value, fill = component)) +
 p2
 savename <- 'welfare_climate_l_12pc_bar.png'
 ggsave(file.path(savepath,savename), plot = p2, width = 8, height = 6, dpi = 300)
-
-
